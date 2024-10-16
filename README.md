@@ -68,7 +68,6 @@ Request Body:
 {
   "title": "Título da Tarefa",
   "description": "Descrição da Tarefa",
-  "status": "pendente"
 }
 ```
 
@@ -78,7 +77,7 @@ Exemplo de cURL:
 curl -X 'POST' \
   'http://localhost:8000/tasks' \
   -H 'Content-Type: application/json' \
-  -d '{ "title": "Nova Tarefa", "description": "Descrição da tarefa", "status": "pendente" }'
+  -d '{ "title": "Nova Tarefa", "description": "Descrição da tarefa" }'
 ```
 
 Resposta: Status 201 (Created), com a tarefa criada.
