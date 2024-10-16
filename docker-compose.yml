@@ -13,6 +13,11 @@ services:
       - ./migrations/seed.sql:/docker-entrypoint-initdb.d/seed.sql
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   api:
     build:
@@ -28,9 +33,11 @@ services:
       - PYTHONPATH=/app
     command: uvicorn api.main:app --host 0.0.0.0 --port 8000
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
     networks:
       - app-network
+    restart: on-failure
 
   streamlit:
     build:
