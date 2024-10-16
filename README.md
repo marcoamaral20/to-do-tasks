@@ -197,11 +197,3 @@ networks:
   app-network:
     driver: bridge
 ```
-
-## Contribuindo
-
-Sinta-se à vontade para contribuir! Envie pull requests ou crie issues para sugerir melhorias ou relatar problemas.
-
-## Licença
-
-Este projeto está licenciado sob a Licença MIT.
