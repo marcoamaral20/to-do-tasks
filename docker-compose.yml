@@ -1,0 +1,53 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: local_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: todo-tasks
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./migrations/seed.sql:/docker-entrypoint-initdb.d/seed.sql
+    networks:
+      - app-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    container_name: todo_api
+    working_dir: /app
+    volumes:
+      - ./api:/app/api
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    container_name: todo_streamlit
+    ports:
+      - "8501:8501"
+    networks:
+      - app-network
+    depends_on:
+      - api
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

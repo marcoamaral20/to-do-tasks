@@ -1,0 +1,21 @@
+# Dockerfile para o Streamlit
+FROM python:3.10-slim
+
+# Define o diretório de trabalho no container
+WORKDIR /app
+
+# Copia o arquivo requirements.txt para instalar dependências
+COPY ./streamlit/requirements.txt /app/requirements.txt
+
+# Instala as dependências do Streamlit
+RUN pip install --no-cache-dir -r /app/requirements.txt
+
+# Copia o código do Streamlit para o container
+COPY ./streamlit /app
+
+# Expõe a porta padrão do Streamlit
+EXPOSE 8501
+
+# Comando para rodar o Streamlit
+CMD ["streamlit", "run", "app.py", "--server.enableCORS", "false", "--server.enableXsrfProtection", "false", "--server.port", "8501"]
+
