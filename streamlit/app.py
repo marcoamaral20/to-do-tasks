@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from datetime import datetime
 
-API_URL = "http://localhost:8000/tasks"
+API_URL = "http://todo_api:8000/tasks"
 
 def fetch_tasks():
     try:
